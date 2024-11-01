@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import Loading from "../components/Loading";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function LoginPage({ onLogin }) {
@@ -12,14 +13,19 @@ export default function LoginPage({ onLogin }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    onLogin();
-    navigate("/users");
+    setLoading(true);
+    setTimeout(() => {
+      onLogin();
+      navigate("/users");
+      setLoading(false);
+    }, 2000);
   };
+
   return (
     <div className="flex justify-center items-center h-screen min-w-screen">
       {loading ? (
         <div className="transition ease flex justify-center items-center w-full h-full">
-          {/* <LoadingComponent light={true} size={5} /> */}
+          <Loading light={true} size={5} />
         </div>
       ) : (
         ""
