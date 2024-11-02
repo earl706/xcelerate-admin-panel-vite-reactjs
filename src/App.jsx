@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import TournamentsPage from "./pages/TournamentsPage";
 import UsersPage from "./pages/UsersPage";
+import CreateUser from "./pages/CreateUser";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,6 +20,10 @@ function App() {
     {
       element: <UsersPage />,
       path: "/users",
+    },
+    {
+      element: <CreateUser />,
+      path: "/create-user",
     },
     {
       element: <TournamentsPage />,

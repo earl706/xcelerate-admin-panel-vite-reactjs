@@ -8,6 +8,10 @@ export default function Layout({ children }) {
       link: "/users",
     },
     {
+      navItem: "Create User",
+      link: "/create-user",
+    },
+    {
       navItem: "Tournaments",
       link: "/tournaments",
     },

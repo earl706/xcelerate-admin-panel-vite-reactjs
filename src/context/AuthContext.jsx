@@ -7,10 +7,11 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const login = async (full_name, password) => {
     try {
-      const login_response = await APIauth.post("login-admin/", {
+      const login_response = await APIusers.post("login-admin/", {
         full_name,
         password,
       });
+      console.log(login);
 
       localStorage.setItem("adminExcelerateToken", login_response.data.access);
       localStorage.setItem(
@@ -23,7 +24,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (data) => {
+    try {
+      const register_response = await APIusers.post("register/", data);
+      return register_response;
+    } catch (error) {
+      return error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ login }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ login, register }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

@@ -19,7 +19,6 @@ export default function LoginPage({ onLogin }) {
     setLoading(true);
     try {
       const login_response = await login(username, password);
-      console.log(login_response);
       if (login_response.status == 200 || login_response.statusText == "OK") {
         onLogin();
         navigate("/users");
@@ -27,9 +26,10 @@ export default function LoginPage({ onLogin }) {
         setErrorMessage(login_response.code);
         setError(true);
       }
+      setLoading(false);
       return login_response;
     } catch (err) {
-      console.log(err);
+      setLoading(false);
     }
     setLoading(false);
   };
