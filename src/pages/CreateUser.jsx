@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { AuthContext } from "../context/AuthContext";
 import Loading from "../components/Loading";
@@ -44,7 +44,12 @@ export default function CreateUser() {
           phone_number: phoneNumber,
           profile_picture: profilePicture,
         };
-        const register_response = await register(data);
+        const formData = new FormData();
+        formData.append("full_name", username);
+        formData.append("password", password);
+        formData.append("phone_number", phoneNumber);
+        formData.append("profile_picture", profilePicture);
+        const register_response = await register(formData);
         setUserCreatedData(register_response.data);
         if (register_response.statusText == "Created") {
           setUserCreated(true);
@@ -66,6 +71,10 @@ export default function CreateUser() {
       }
     }
   };
+
+  useEffect(() => {
+    console.log(profilePicture);
+  }, [profilePicture]);
 
   return (
     <>

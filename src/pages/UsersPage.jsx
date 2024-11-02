@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import { AuthContext } from "../context/AuthContext";
 
 export default function UsersPage() {
+  const { getUsers } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [error, setError] = useState(false);
@@ -39,6 +41,24 @@ export default function UsersPage() {
       setSelectedUsers([...selectedUsers, userID]);
     }
   };
+
+  const initializeUsers = async () => {
+    try {
+      const users_list = await getUsers();
+      console.log(users_list);
+      if (users_list.status == 200 || users_list.statusText == "OK") {
+        // setTotalPages(Math.floor(users_list.data.count / 50) + 1);
+        setUsers(Array.from(users_list.data));
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    initializeUsers();
+  }, []);
 
   return (
     <>
@@ -122,7 +142,7 @@ export default function UsersPage() {
                     </span>
                     {user.full_name}
                   </td>
-                  <td className="px-4 py-2">{user.transactions.length}</td>
+                  {/* <td className="px-4 py-2">{user.transactions.length}</td> */}
                   <td className="px-4 py-2">{user.phone_number}</td>
                   <td className="px-4 py-2">
                     <div className="flex flex-row justify-evenly align-center">

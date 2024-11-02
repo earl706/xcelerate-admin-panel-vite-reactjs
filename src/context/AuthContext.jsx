@@ -33,8 +33,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getUsers = async () => {
+    try {
+      const users = await APIusers.get(`all/`);
+      return users;
+    } catch (err) {
+      return err;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ login, register }}>
+    <AuthContext.Provider value={{ login, register, getUsers }}>
       {children}
     </AuthContext.Provider>
   );
