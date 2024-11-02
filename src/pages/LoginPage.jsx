@@ -1,8 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import Loading from "../components/Loading";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function LoginPage({ onLogin }) {
+  const { login } = useContext(AuthContext);
+
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -11,14 +14,24 @@ export default function LoginPage({ onLogin }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      onLogin();
-      navigate("/users");
-      setLoading(false);
-    }, 2000);
+    try {
+      const login_response = await login(username, password);
+      console.log(login_response);
+      if (login_response.status == 200 || login_response.statusText == "OK") {
+        onLogin();
+        navigate("/users");
+      } else {
+        setErrorMessage(login_response.code);
+        setError(true);
+      }
+      return login_response;
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
   };
 
   return (
