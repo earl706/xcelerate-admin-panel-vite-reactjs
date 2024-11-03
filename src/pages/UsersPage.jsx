@@ -86,6 +86,7 @@ export default function UsersPage() {
                 />
               </th>
               <th className="py-4 px-4 border-b">ID</th>
+              <th className="py-4 px-4 border-b">PROFILE PIC</th>
               <th className="py-4 px-4 border-b">DATE CREATED</th>
               <th className="py-4 px-4 border-b">NAME</th>
               <th className="py-4 px-4 border-b">PHONE #</th>
@@ -126,6 +127,12 @@ export default function UsersPage() {
                     />
                   </td>
                   <td className="px-4 py-2">{user.id}</td>
+                  <td className="px-4 py-2">
+                    <img
+                      src={`http://127.0.0.1:8000/api/users${user.profile_picture}`}
+                      alt=""
+                    />
+                  </td>
                   <td className="px-4 py-2">
                     {new Date(user.date_joined).toDateString()}{" "}
                     {new Date(user.date_joined).toLocaleTimeString()}
