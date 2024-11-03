@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import BatchDeleteConfirmationModal from "../components/BatchDeleteConfirmationModal.jsx";
 import { AuthContext } from "../context/AuthContext";
 
 export default function UsersPage() {
@@ -56,12 +57,42 @@ export default function UsersPage() {
       console.log(err);
     }
   };
+
+  const closeDeleteUserConfirmation = () => {
+    setDeleteConfirm(false);
+    setConfirmBatchDeleteUsers(false);
+  };
+
+  useEffect(() => {
+    if (!confirmBatchDeleteUsers) {
+      initializeUsers();
+      setSelectedUsers([]);
+      setSelectAllUsers(false);
+    }
+  }, [confirmBatchDeleteUsers]);
+
   useEffect(() => {
     initializeUsers();
   }, []);
 
   return (
     <>
+      <div className={confirmBatchDeleteUsers ? "relative " : "hidden"}>
+        <div className="inset-0 flex justify-center absolute z-10">
+          <div className="w-full">
+            {confirmBatchDeleteUsers ? (
+              <BatchDeleteConfirmationModal
+                dataIDs={selectedUsers}
+                closeDeleteConfirmation={closeDeleteUserConfirmation}
+                message={"Are you sure you want to delete these users?"}
+                dataType={"user"}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
       <div
         className={
           userEdit || deleteConfirm || confirmBatchDeleteUsers
@@ -70,6 +101,24 @@ export default function UsersPage() {
         }
       >
         <h2 className="text-2xl font-semibold mb-6 text-center">Users</h2>
+      </div>
+      <div className="flex flex-row justify-between mb-4 p-4 rounded-[10px] bg-white drop-shadow-lg">
+        <div className="">
+          <span className="text-[12px]">
+            {selectedUsers.length} selected users
+          </span>
+        </div>
+        <div className="">
+          <button
+            onClick={() => {
+              setConfirmBatchDeleteUsers(true);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="transition bg-transparent outline outline-red-700 text-red-700 text-[12px] font-bold hover:bg-red-700 hover:text-white px-4 py-1 rounded-[5px]"
+          >
+            Delete
+          </button>
+        </div>
       </div>
       <div className="overflow-x-auto rounded-[10px] drop-shadow-lg">
         <table className="min-w-full bg-white rounded-lg">
@@ -105,7 +154,7 @@ export default function UsersPage() {
                     }
                     style={{ display: loadingUsers ? "flex" : "none" }}
                   >
-                    <LoadingComponent size={5} light={true} />
+                    <Loading size={5} light={true} />
                   </div>
                 </td>
               </tr>
@@ -131,6 +180,7 @@ export default function UsersPage() {
                     <img
                       src={`http://127.0.0.1:8000/api/users${user.profile_picture}`}
                       alt=""
+                      className="w-12 h-12 rounded-[50%]"
                     />
                   </td>
                   <td className="px-4 py-2">

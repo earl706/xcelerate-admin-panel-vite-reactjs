@@ -42,8 +42,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const deleteUsers = async (data) => {
+    try {
+      const response = APIusers.post("batch-delete/", data);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ login, register, getUsers }}>
+    <AuthContext.Provider value={{ login, register, getUsers, deleteUsers }}>
       {children}
     </AuthContext.Provider>
   );
