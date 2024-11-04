@@ -66,10 +66,12 @@ export default function TournamentsPage() {
                 />
               </th>
               <th className="py-4 px-4 border-b">ID</th>
-              <th className="py-4 px-4 border-b">DATE CREATED</th>
               <th className="py-4 px-4 border-b">NAME</th>
-              <th className="py-4 px-4 border-b">PHONE #</th>
-              <th className="py-4 px-4 border-b">ACTIONS</th>
+              <th className="py-4 px-4 border-b">BANNER</th>
+              <th className="py-4 px-4 border-b">DATE CREATED</th>
+              <th className="py-4 px-4 border-b">DATE START/END</th>
+              <th className="py-4 px-4 border-b">SYSTEM</th>
+              <th className="py-4 px-4 border-b">REQUIREMENTS</th>
             </tr>
           </thead>
           <tbody>
@@ -162,8 +164,8 @@ export default function TournamentsPage() {
             )}
             {!loadingTournaments && tournaments.length == 0 && !error ? (
               <tr>
-                <td colSpan={7} className="py-4 text-[12px] font-bold">
-                  <div className="text-center">No Users</div>
+                <td colSpan={99} className="py-4 text-[12px] font-bold">
+                  <div className="text-center">No Tournaments</div>
                 </td>
               </tr>
             ) : (

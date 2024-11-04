@@ -51,8 +51,35 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getTournaments = async () => {
+    try {
+      const response = APItournaments.get("tournaments/");
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const createTournament = async (data) => {
+    try {
+      const response = APItournaments.post("tournaments/", data);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ login, register, getUsers, deleteUsers }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        register,
+        getUsers,
+        deleteUsers,
+        getTournaments,
+        createTournament,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
