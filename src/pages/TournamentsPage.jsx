@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import { AuthContext } from "../context/AuthContext";
 
 export default function TournamentsPage() {
+  const { getTournaments } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [error, setError] = useState(false);
@@ -22,6 +24,23 @@ export default function TournamentsPage() {
 
   const [loadingTournaments, setLoadingTournaments] = useState(false);
 
+  const initializeTournaments = async () => {
+    try {
+      const tournaments_list = await getTournaments();
+      console.log(tournaments_list);
+      if (
+        tournaments_list.status == 200 ||
+        tournaments_list.statusText == "OK"
+      ) {
+        setUsers(Array.from(tournaments_list.data));
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleSelectAllTournaments = () => {
     if (!selectAllTournaments) {
       const currentTournaments = tournaments.map((tournament) => tournament.id);
@@ -39,6 +58,10 @@ export default function TournamentsPage() {
       setSelectedTournaments([...selectedTournaments, tournamentID]);
     }
   };
+
+  useEffect(() => {
+    initializeTournaments();
+  }, []);
 
   return (
     <>
@@ -91,46 +114,33 @@ export default function TournamentsPage() {
                 </td>
               </tr>
             ) : (
-              tournaments.map((user) => (
+              tournaments.map((tournament) => (
                 <tr
-                  key={user.id}
+                  key={tournament.id}
                   className="hover:bg-gray-100 text-left text-[12px] border-b"
-                  onClick={() => handleSelectedTournaments(user.id)}
+                  onClick={() => handleSelectedTournaments(tournament.id)}
                 >
                   <td className="px-4 py-2">
-                    <input
-                      onChange={() => handleSelectedTournaments(user.id)}
-                      checked={selectedTournaments.includes(user.id)}
-                      type="checkbox"
-                      className={
-                        user.is_staff ? "hidden" : "bg-blue-700 text-blue-700"
-                      }
+                    <img
+                      src={`http://127.0.0.1:8000/api/tournaments${tournament.tournament_banner}`}
+                      alt=""
+                      className="w-12 h-12 rounded-[50%]"
                     />
                   </td>
-                  <td className="px-4 py-2">{user.id}</td>
-                  <td className="px-4 py-2">
-                    {new Date(user.date_joined).toDateString()}{" "}
-                    {new Date(user.date_joined).toLocaleTimeString()}
-                  </td>
-                  <td className="px-4 py-2">
-                    <span
-                      className={
-                        user.is_staff
-                          ? "px-2 py-1 rounded bg-blue-600 font-bold mr-2 text-white"
-                          : "hidden"
-                      }
-                    >
-                      Admin
-                    </span>
-                    {user.full_name}
-                  </td>
-                  <td className="px-4 py-2">{user.transactions.length}</td>
-                  <td className="px-4 py-2">{user.phone_number}</td>
+                  <td className="px-4 py-2">{tournament.tournament_name}</td>
+                  <td className="px-4 py-2">{tournament.description}</td>
+                  <td className="px-4 py-2">{tournament.sport}</td>
+                  <td className="px-4 py-2">{tournament.date_created}</td>
+                  <td className="px-4 py-2">{tournament.tournament_start}</td>
+                  <td className="px-4 py-2">{tournament.tournament_end}</td>
+                  <td className="px-4 py-2">{tournament.bracketing_system}</td>
+                  <td className="px-4 py-2">{tournament.requirements}</td>
+
                   <td className="px-4 py-2">
                     <div className="flex flex-row justify-evenly align-center">
                       <button
                         onClick={() => {
-                          handleEditUser(user);
+                          // handleEditUser(tournament);
                           window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                         className="transition bg-transparent outline outline-blue-700 text-blue-700 text-[12px] font-bold hover:bg-blue-700 hover:text-white px-4 py-1 rounded-[5px]"
@@ -140,11 +150,11 @@ export default function TournamentsPage() {
                       <button
                         onClick={() => {
                           setDeleteConfirm(true);
-                          setUserDeleteID(user.id);
+                          // setUserDeleteID(tournament.id);
                           window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                         className={
-                          user.is_staff
+                          tournament.is_staff
                             ? "hidden"
                             : "transition bg-transparent outline outline-red-700 text-red-700 text-[12px] font-bold hover:bg-red-700 hover:text-white px-4 py-1 rounded-[5px]"
                         }
@@ -152,7 +162,7 @@ export default function TournamentsPage() {
                         Delete
                       </button>
                       <button
-                        onClick={() => navigate(`${user.id}`)}
+                        onClick={() => navigate(`${tournament.id}`)}
                         className="transition bg-transparent outline outline-green-700 text-green-700 text-[12px] font-bold hover:bg-green-700 hover:text-white px-4 py-1 rounded-[5px]"
                       >
                         View
