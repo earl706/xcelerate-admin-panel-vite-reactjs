@@ -32,7 +32,7 @@ export default function TournamentsPage() {
         tournaments_list.status == 200 ||
         tournaments_list.statusText == "OK"
       ) {
-        setUsers(Array.from(tournaments_list.data));
+        setTournaments(Array.from(tournaments_list.data));
       } else {
         setError(true);
       }
@@ -89,8 +89,10 @@ export default function TournamentsPage() {
                 />
               </th>
               <th className="py-4 px-4 border-b">ID</th>
-              <th className="py-4 px-4 border-b">NAME</th>
               <th className="py-4 px-4 border-b">BANNER</th>
+              <th className="py-4 px-4 border-b">NAME</th>
+              <th className="py-4 px-4 border-b">DESCRIPTION</th>
+              <th className="py-4 px-4 border-b">SPORT</th>
               <th className="py-4 px-4 border-b">DATE CREATED</th>
               <th className="py-4 px-4 border-b">DATE START/END</th>
               <th className="py-4 px-4 border-b">SYSTEM</th>
@@ -121,6 +123,15 @@ export default function TournamentsPage() {
                   onClick={() => handleSelectedTournaments(tournament.id)}
                 >
                   <td className="px-4 py-2">
+                    <input
+                      onChange={() => handleSelectedTournaments(tournament.id)}
+                      checked={selectedTournaments.includes(tournament.id)}
+                      type="checkbox"
+                      className="bg-blue-700 text-blue-700"
+                    />
+                  </td>
+                  <td className="px-4 py-2">{tournament.id}</td>
+                  <td className="px-4 py-2">
                     <img
                       src={`http://127.0.0.1:8000/api/tournaments${tournament.tournament_banner}`}
                       alt=""
@@ -131,8 +142,9 @@ export default function TournamentsPage() {
                   <td className="px-4 py-2">{tournament.description}</td>
                   <td className="px-4 py-2">{tournament.sport}</td>
                   <td className="px-4 py-2">{tournament.date_created}</td>
-                  <td className="px-4 py-2">{tournament.tournament_start}</td>
-                  <td className="px-4 py-2">{tournament.tournament_end}</td>
+                  <td className="px-4 py-2">
+                    {tournament.tournament_start} {tournament.tournament_end}
+                  </td>
                   <td className="px-4 py-2">{tournament.bracketing_system}</td>
                   <td className="px-4 py-2">{tournament.requirements}</td>
 
