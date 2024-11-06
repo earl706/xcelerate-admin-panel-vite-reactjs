@@ -146,7 +146,15 @@ export default function TournamentsPage() {
                     {tournament.tournament_start} {tournament.tournament_end}
                   </td>
                   <td className="px-4 py-2">{tournament.bracketing_system}</td>
-                  <td className="px-4 py-2">{tournament.requirements}</td>
+                  <td className="px-4 py-2">
+                    <ul className="list-disc">
+                      {tournament.requirements[0]
+                        .split(",")
+                        .map((requirement, index) => (
+                          <li key={index}>{requirement}</li>
+                        ))}
+                    </ul>
+                  </td>
 
                   <td className="px-4 py-2">
                     <div className="flex flex-row justify-evenly align-center">
