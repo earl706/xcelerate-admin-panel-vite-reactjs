@@ -190,9 +190,27 @@ export default function TournamentsPage() {
                   <td className="px-4 py-2">{tournament.tournament_name}</td>
                   <td className="px-4 py-2">{tournament.description}</td>
                   <td className="px-4 py-2">{tournament.sport}</td>
-                  <td className="px-4 py-2">{tournament.date_created}</td>
                   <td className="px-4 py-2">
-                    {tournament.tournament_start} {tournament.tournament_end}
+                    {" "}
+                    {new Date(tournament.date_created).toDateString()}{" "}
+                    {new Date(tournament.date_created).toLocaleTimeString()}
+                  </td>
+                  <td className="px-4 py-2">
+                    {`${new Date(
+                      tournament.tournament_start
+                    ).getDate()}-${new Date(
+                      tournament.tournament_start
+                    ).getMonth()}-${new Date(
+                      tournament.tournament_start
+                    ).getFullYear()}`}
+                    {" to "}
+                    {`${new Date(
+                      tournament.tournament_end
+                    ).getDate()}-${new Date(
+                      tournament.tournament_end
+                    ).getMonth()}-${new Date(
+                      tournament.tournament_end
+                    ).getFullYear()}`}
                   </td>
                   <td className="px-4 py-2">{tournament.bracketing_system}</td>
                   <td className="px-4 py-2">
