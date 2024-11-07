@@ -68,6 +68,14 @@ export const AuthProvider = ({ children }) => {
       return err;
     }
   };
+  const deleteTournaments = async (data) => {
+    try {
+      const response = APItournaments.post("batch-delete/", data);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -76,8 +84,10 @@ export const AuthProvider = ({ children }) => {
         register,
         getUsers,
         deleteUsers,
+
         getTournaments,
         createTournament,
+        deleteTournaments,
       }}
     >
       {children}

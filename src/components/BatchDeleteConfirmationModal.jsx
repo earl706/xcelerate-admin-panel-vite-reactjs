@@ -8,7 +8,7 @@ export default function BatchDeleteConfirmationModal({
   message,
   closeDeleteConfirmation,
 }) {
-  const { deleteUsers } = useContext(AuthContext);
+  const { deleteUsers, deleteTournaments } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   const confirmDeleteData = async () => {
@@ -17,6 +17,11 @@ export default function BatchDeleteConfirmationModal({
       if (dataType == "user") {
         if (dataIDs.length > 0) {
           const confirm_delete_response = await deleteUsers(dataIDs);
+        }
+      } else if (dataType == "tournament") {
+        if (dataIDs.length > 0) {
+          const confirm_delete_response = await deleteTournaments(dataIDs);
+          console.log(confirm_delete_response);
         }
       }
     } catch (err) {

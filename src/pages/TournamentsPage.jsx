@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { AuthContext } from "../context/AuthContext";
+import BatchDeleteConfirmationModal from "../components/BatchDeleteConfirmationModal";
 
 export default function TournamentsPage() {
   const { getTournaments } = useContext(AuthContext);
@@ -59,12 +60,41 @@ export default function TournamentsPage() {
     }
   };
 
+  const closeDeleteTournamentConfirmation = () => {
+    setDeleteConfirm(false);
+    setConfirmBatchDeleteTournaments(false);
+  };
+
+  useEffect(() => {
+    if (!confirmBatchDeleteTournaments) {
+      initializeTournaments();
+      setSelectedTournaments([]);
+      setSelectAllTournaments(false);
+    }
+  }, [confirmBatchDeleteTournaments]);
+
   useEffect(() => {
     initializeTournaments();
   }, []);
 
   return (
     <>
+      <div className={confirmBatchDeleteTournaments ? "relative " : "hidden"}>
+        <div className="inset-0 flex justify-center absolute z-10">
+          <div className="w-full">
+            {confirmBatchDeleteTournaments ? (
+              <BatchDeleteConfirmationModal
+                dataIDs={selectedTournaments}
+                closeDeleteConfirmation={closeDeleteTournamentConfirmation}
+                message={"Are you sure you want to delete these tournaments?"}
+                dataType={"tournament"}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
       <div
         className={
           tournamentEdit || deleteConfirm || confirmBatchDeleteTournaments
@@ -73,6 +103,24 @@ export default function TournamentsPage() {
         }
       >
         <h2 className="text-2xl font-semibold mb-6 text-center">Tournaments</h2>
+      </div>
+      <div className="flex flex-row justify-between mb-4 p-4 rounded-[10px] bg-white drop-shadow-lg">
+        <div className="">
+          <span className="text-[12px]">
+            {selectedTournaments.length} selected tournaments
+          </span>
+        </div>
+        <div className="">
+          <button
+            onClick={() => {
+              setConfirmBatchDeleteTournaments(true);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="transition bg-transparent outline outline-red-700 text-red-700 text-[12px] font-bold hover:bg-red-700 hover:text-white px-4 py-1 rounded-[5px]"
+          >
+            Delete
+          </button>
+        </div>
       </div>
       <div className="overflow-x-auto rounded-[10px] drop-shadow-lg">
         <table className="min-w-full bg-white rounded-lg">
@@ -97,6 +145,7 @@ export default function TournamentsPage() {
               <th className="py-4 px-4 border-b">DATE START/END</th>
               <th className="py-4 px-4 border-b">SYSTEM</th>
               <th className="py-4 px-4 border-b">REQUIREMENTS</th>
+              <th className="py-4 px-4 border-b">ACTIONS</th>
             </tr>
           </thead>
           <tbody>
