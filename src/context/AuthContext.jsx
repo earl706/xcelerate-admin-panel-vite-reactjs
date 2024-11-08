@@ -60,6 +60,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getTournament = async (id) => {
+    try {
+      const response = APItournaments.get(`tournaments/${id}/`);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   const createTournament = async (data) => {
     try {
       const response = APItournaments.post("tournaments/", data);
@@ -86,6 +95,7 @@ export const AuthProvider = ({ children }) => {
         deleteUsers,
 
         getTournaments,
+        getTournament,
         createTournament,
         deleteTournaments,
       }}
