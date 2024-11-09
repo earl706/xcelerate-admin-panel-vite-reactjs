@@ -27,6 +27,7 @@ export default function TournamentsPage() {
 
   const initializeTournaments = async () => {
     try {
+      setLoadingTournaments(true);
       const tournaments_list = await getTournaments();
       console.log(tournaments_list);
       if (
@@ -36,9 +37,13 @@ export default function TournamentsPage() {
         setTournaments(Array.from(tournaments_list.data));
       } else {
         setError(true);
+        setLoadingTournaments(false);
       }
+      setLoadingTournaments(false);
+      return tournaments_list;
     } catch (err) {
       console.log(err);
+      setLoadingTournaments(false);
     }
   };
 
@@ -160,7 +165,7 @@ export default function TournamentsPage() {
                     }
                     style={{ display: loadingTournaments ? "flex" : "none" }}
                   >
-                    <LoadingComponent size={5} light={true} />
+                    <Loading size={5} light={true} />
                   </div>
                 </td>
               </tr>

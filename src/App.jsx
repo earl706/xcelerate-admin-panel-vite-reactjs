@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import LoginPage from "./pages/LoginPage";
 import TournamentsPage from "./pages/TournamentsPage";
+import TournamentDetailPage from "./pages/TournamentDetailPage";
 import CreateTournament from "./pages/CreateTournament";
 import UsersPage from "./pages/UsersPage";
 import CreateUser from "./pages/CreateUser";
@@ -33,6 +34,10 @@ function App() {
     {
       element: <CreateTournament />,
       path: "/create-tournament",
+    },
+    {
+      element: <TournamentDetailPage />,
+      path: "/tournaments/:id",
     },
   ];
 
