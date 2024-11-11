@@ -41,6 +41,14 @@ export const AuthProvider = ({ children }) => {
       return err;
     }
   };
+  const getUser = async (id) => {
+    try {
+      const user = await APIusers.get(`detail/${id}/`);
+      return user;
+    } catch (err) {
+      return err;
+    }
+  };
 
   const deleteUsers = async (data) => {
     try {
@@ -92,6 +100,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         getUsers,
+        getUser,
         deleteUsers,
 
         getTournaments,

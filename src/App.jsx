@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
 
+import UserDetailPage from "./pages/UserDetailPage";
 import LoginPage from "./pages/LoginPage";
 import TournamentsPage from "./pages/TournamentsPage";
 import TournamentDetailPage from "./pages/TournamentDetailPage";
@@ -38,6 +39,10 @@ function App() {
     {
       element: <TournamentDetailPage />,
       path: "/tournaments/:id",
+    },
+    {
+      element: <UserDetailPage />,
+      path: "/users/:id",
     },
   ];
 
