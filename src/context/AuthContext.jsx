@@ -85,9 +85,21 @@ export const AuthProvider = ({ children }) => {
       return err;
     }
   };
+
   const deleteTournaments = async (data) => {
     try {
       const response = APItournaments.post("batch-delete/", data);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const refreshToken = async (token) => {
+    try {
+      const response = APIusers.post("token/refresh/", {
+        refresh: token,
+      });
       return response;
     } catch (error) {
       return error;
@@ -102,6 +114,8 @@ export const AuthProvider = ({ children }) => {
         getUsers,
         getUser,
         deleteUsers,
+
+        refreshToken,
 
         getTournaments,
         getTournament,

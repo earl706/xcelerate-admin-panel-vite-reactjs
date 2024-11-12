@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function LoginPage({ onLogin }) {
-  const { login } = useContext(AuthContext);
+  const { login, refreshToken } = useContext(AuthContext);
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -33,6 +33,32 @@ export default function LoginPage({ onLogin }) {
     }
     setLoading(false);
   };
+
+  const handleSavedLogin = async (refresh_token) => {
+    try {
+      setLoading(true);
+      const login_response = await refreshToken(refresh_token);
+      const lastPath = localStorage.getItem("lastPath");
+      if (login_response.status == 200 && login_response.statusText == "OK") {
+        localStorage.setItem(
+          "adminExcelerateToken",
+          login_response.data.access
+        );
+        onLogin();
+        navigate(`${lastPath}`);
+      }
+      setLoading(false);
+      return login_response;
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      return err;
+    }
+  };
+
+  useEffect(() => {
+    handleSavedLogin();
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen min-w-screen">

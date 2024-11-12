@@ -8,12 +8,12 @@ export default function Layout({ children }) {
       link: "/users",
     },
     {
-      navItem: "Create User",
-      link: "/create-user",
-    },
-    {
       navItem: "Tournaments",
       link: "/tournaments",
+    },
+    {
+      navItem: "Create User",
+      link: "/create-user",
     },
     {
       navItem: "Create Tournament",

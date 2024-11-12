@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import Layout from "./components/Layout";
@@ -15,6 +15,8 @@ import CreateUser from "./pages/CreateUser";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const pathLocation = window.location.pathname;
+
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
@@ -25,12 +27,12 @@ function App() {
       path: "/users",
     },
     {
-      element: <CreateUser />,
-      path: "/create-user",
-    },
-    {
       element: <TournamentsPage />,
       path: "/tournaments",
+    },
+    {
+      element: <CreateUser />,
+      path: "/create-user",
     },
     {
       element: <CreateTournament />,
@@ -52,6 +54,11 @@ function App() {
     }
     return <Layout>{element}</Layout>;
   };
+
+  useEffect(() => {
+    console.log(`Path location: ${pathLocation}`);
+    localStorage.setItem("lastPath", pathLocation);
+  }, [pathLocation]);
 
   return (
     <>
