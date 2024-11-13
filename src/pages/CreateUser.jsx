@@ -19,6 +19,9 @@ export default function CreateUser() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [gender, setGender] = useState("male");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -48,6 +51,9 @@ export default function CreateUser() {
         formData.append("full_name", username);
         formData.append("password", password);
         formData.append("phone_number", phoneNumber);
+        formData.append("email", email);
+        formData.append("gender", gender);
+        formData.append("birthday", birthdate);
         formData.append("profile_picture", profilePicture);
         const register_response = await register(formData);
         setUserCreatedData(register_response.data);
@@ -72,8 +78,15 @@ export default function CreateUser() {
     }
   };
 
+  const formatDefaultBirthdate = () => {
+    const current_date = new Date();
+    const formattedCurrentDate = current_date.toISOString().split("T")[0];
+    setBirthdate(formattedCurrentDate);
+  };
+
   useEffect(() => {
     console.log(profilePicture);
+    formatDefaultBirthdate();
   }, [profilePicture]);
 
   return (
@@ -154,6 +167,49 @@ export default function CreateUser() {
           </div>
           <div className="mb-6">
             <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Gender
+            </label>
+            <div className="flex flex-row justify-around">
+              <label
+                className="flex flex-row items-center justify-around"
+                htmlFor=""
+              >
+                <input
+                  type="radio"
+                  checked={gender == "male" ? true : false}
+                  value="male"
+                  onChange={(e) => {
+                    setUserCreated(false);
+                    setUserError(false);
+                    setGender(e.target.value);
+                  }}
+                  className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none mr-10"
+                  required
+                />
+                <span>Male</span>
+              </label>
+              <label
+                htmlFor=""
+                className="flex flex-row items-center justify-around"
+              >
+                <input
+                  type="radio"
+                  checked={gender == "female" ? true : false}
+                  value="female"
+                  onChange={(e) => {
+                    setUserCreated(false);
+                    setUserError(false);
+                    setGender(e.target.value);
+                  }}
+                  className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none mr-10"
+                  required
+                />
+                <span>Female</span>
+              </label>
+            </div>
+          </div>
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
               Confirm Password
             </label>
             <input
@@ -165,6 +221,39 @@ export default function CreateUser() {
                 setPasswordConfirmation(e.target.value);
               }}
               placeholder="Confirm Password"
+              className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setUserCreated(false);
+                setUserError(false);
+                setEmail(e.target.value);
+              }}
+              placeholder="Email"
+              className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Birthdate
+            </label>
+            <input
+              type="date"
+              value={birthdate}
+              onChange={(e) => {
+                setUserCreated(false);
+                setUserError(false);
+                setBirthdate(e.target.value);
+              }}
               className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
               required
             />
@@ -188,6 +277,7 @@ export default function CreateUser() {
                   : "transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
               }
             />
+
             <span
               className={
                 userError ? "text-red-600 text-[15px] text-left" : "hidden"

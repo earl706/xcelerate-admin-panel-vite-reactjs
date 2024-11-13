@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 
 export default function UserEditModal({ user, closeUserEdit }) {
@@ -25,6 +25,10 @@ export default function UserEditModal({ user, closeUserEdit }) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
     <>

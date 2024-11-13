@@ -50,6 +50,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = async (data) => {
+    try {
+      const response = await APIusers.put(`detail/${data.id}/`, data);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   const deleteUsers = async (data) => {
     try {
       const response = APIusers.post("batch-delete/", data);
@@ -113,6 +122,7 @@ export const AuthProvider = ({ children }) => {
         register,
         getUsers,
         getUser,
+        updateUser,
         deleteUsers,
 
         refreshToken,
