@@ -72,11 +72,7 @@ export default function CreateTournament() {
         formData.append("tournament_end", tournamentEnd);
         formData.append("bracketing_system", bracketingSystem);
         formData.append("requirements", requirements.split(","));
-        requirements.split(",").forEach((requirement, index) => {
-          formData.append(`requirement-${index}`, requirement);
-        });
         const register_response = await createTournament(formData);
-        console.log(register_response);
         tournamentCreatedData(register_response.data);
         if (register_response.statusText == "Created") {
           setTournamentCreated(true);
