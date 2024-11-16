@@ -56,6 +56,7 @@ export default function CreateUser() {
         formData.append("birthday", birthdate);
         formData.append("profile_picture", profilePicture);
         const register_response = await register(formData);
+        console.log(register_response);
         setUserCreatedData(register_response.data);
         if (register_response.statusText == "Created") {
           setUserCreated(true);

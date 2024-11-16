@@ -8,6 +8,10 @@ import UserEditModal from "../components/UserEditModal.jsx";
 import { AuthContext } from "../context/AuthContext";
 
 export default function UsersPage() {
+  const productionAPIURL = import.meta.env.VITE_PRODUCTION_API_URL;
+  const developmentAPIURL = import.meta.env.VITE_DEVELOPMENT_API_URL;
+  const inProduction = import.meta.env.VITE_IN_PRODUCTION;
+
   const { getUsers } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -55,6 +59,7 @@ export default function UsersPage() {
   };
 
   const initializeUsers = async () => {
+    setLoadingUsers(true);
     try {
       const users_list = await getUsers();
       if (users_list.status == 200 || users_list.statusText == "OK") {
@@ -63,8 +68,9 @@ export default function UsersPage() {
       } else {
         setError(true);
       }
+      setLoadingUsers(false);
     } catch (err) {
-      console.log(err);
+      setLoadingUsers(false);
     }
   };
 
@@ -142,8 +148,8 @@ export default function UsersPage() {
             : ""
         }
       >
+        <h2 className="text-2xl font-semibold mb-6 text-center">Users</h2>
         <div className="flex flex-row justify-between mb-4 p-4 rounded-[10px] bg-white drop-shadow-lg">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Users</h2>
           <div className="">
             <span className="text-[12px]">
               {selectedUsers.length} selected users
