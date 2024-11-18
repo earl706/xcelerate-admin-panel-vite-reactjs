@@ -39,6 +39,7 @@ export default function CreateTournament() {
   const handleCreateTournamentSubmit = async (event) => {
     event.preventDefault();
     console.log("Submit triggered");
+
     const data = {
       tournament_name: tournamentName,
       description: description,
@@ -47,7 +48,7 @@ export default function CreateTournament() {
       tournament_start: tournamentStart,
       tournament_end: tournamentEnd,
       bracketing_system: bracketingSystem,
-      requirements: requirements.split(","),
+      requirements: requirements,
     };
     console.log(data);
     if (
@@ -72,9 +73,12 @@ export default function CreateTournament() {
         formData.append("tournament_end", tournamentEnd);
         formData.append("bracketing_system", bracketingSystem);
         formData.append("requirements", requirements.split(","));
+        requirements.split(",").forEach((requirement, index) => {
+          formData.append(`requirements[${index}]`, requirement);
+        });
         const register_response = await createTournament(formData);
-        tournamentCreatedData(register_response.data);
-        if (register_response.statusText == "Created") {
+        setTournamentCreatedData(register_response.data);
+        if (register_response.statusText == "OK") {
           setTournamentCreated(true);
           setTournamentError(false);
           setTournamentName("");
@@ -86,7 +90,6 @@ export default function CreateTournament() {
           setRequirements("");
         } else {
           setTournamentError(true);
-          setUserErrorMessage(register_response.response.data);
         }
         setLoading(false);
         return register_response;
