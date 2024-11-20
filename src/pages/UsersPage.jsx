@@ -225,7 +225,7 @@ export default function UsersPage() {
                     <td className="px-4 py-2">{user.id}</td>
                     <td className="px-4 py-2">
                       <img
-                        src={`https://excelerate-drf-media-bucket.s3.amazonaws.com/api/users${user.profile_picture}`}
+                        src={user.profile_picture}
                         alt=""
                         className="w-12 h-12 rounded-[50%]"
                       />

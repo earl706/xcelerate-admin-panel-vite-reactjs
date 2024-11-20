@@ -8,6 +8,7 @@ import UserDetailPage from "./pages/UserDetailPage";
 import LoginPage from "./pages/LoginPage";
 import TournamentsPage from "./pages/TournamentsPage";
 import TournamentDetailPage from "./pages/TournamentDetailPage";
+import FindTournamentPage from "./pages/FindTournamentPage";
 import CreateTournament from "./pages/CreateTournament";
 import UsersPage from "./pages/UsersPage";
 import CreateUser from "./pages/CreateUser";
@@ -45,6 +46,10 @@ function App() {
     {
       element: <UserDetailPage />,
       path: "/users/:id",
+    },
+    {
+      element: <FindTournamentPage />,
+      path: "/find-tournaments",
     },
   ];
 

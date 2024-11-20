@@ -38,7 +38,6 @@ export default function CreateTournament() {
 
   const handleCreateTournamentSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submit triggered");
 
     const data = {
       tournament_name: tournamentName,
@@ -77,6 +76,7 @@ export default function CreateTournament() {
           formData.append(`requirements[${index}]`, requirement);
         });
         const register_response = await createTournament(formData);
+        console.log(register_response);
         setTournamentCreatedData(register_response.data);
         if (register_response.statusText == "OK") {
           setTournamentCreated(true);

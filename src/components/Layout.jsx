@@ -19,6 +19,10 @@ export default function Layout({ children }) {
       navItem: "Create Tournament",
       link: "/create-tournament",
     },
+    {
+      navItem: "Find Tournament",
+      link: "/find-tournaments",
+    },
   ];
 
   return (
