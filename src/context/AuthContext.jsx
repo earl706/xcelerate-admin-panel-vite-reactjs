@@ -33,9 +33,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getUsers = async () => {
+  const getUsers = async (params) => {
     try {
-      const users = await APIusers.get(`all/`);
+      const users = await APIusers.get(`all/?${params.toString()}`);
       return users;
     } catch (err) {
       return err;

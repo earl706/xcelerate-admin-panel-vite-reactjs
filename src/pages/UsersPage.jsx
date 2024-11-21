@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { useNavigate } from "react-router-dom";
+
+import PhoneInput from "react-phone-number-input/input";
+
 import Loading from "../components/Loading";
 import BatchDeleteConfirmationModal from "../components/BatchDeleteConfirmationModal.jsx";
 import UserEditModal from "../components/UserEditModal.jsx";
@@ -20,6 +22,15 @@ export default function UsersPage() {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [confirmBatchDeleteUsers, setConfirmBatchDeleteUsers] = useState(false);
   const [userEdit, setUserEdit] = useState(false);
+  const [filters, setFilters] = useState({
+    id: "",
+    date_joined: "",
+    full_name: "",
+    email: "",
+    phone_number: "",
+    gender: "",
+    birthday: "",
+  });
   const [userEditData, setUserEditData] = useState({
     profile_picture: "",
     profile_banner: "",
@@ -60,18 +71,35 @@ export default function UsersPage() {
 
   const initializeUsers = async () => {
     setLoadingUsers(true);
+    const params = {
+      full_name: filters.full_name,
+      date_joined__date: filters.date_joined,
+      phone_number: filters.phone_number,
+      id: filters.id,
+      birthday__date: filters.birthday,
+    };
     try {
-      const users_list = await getUsers();
+      const urlParams = new URLSearchParams({
+        page,
+        ...params,
+      });
+      const users_list = await getUsers(urlParams);
+      console.log(users_list);
       if (users_list.status == 200 || users_list.statusText == "OK") {
-        // setTotalPages(Math.floor(users_list.data.count / 50) + 1);
-        setUsers(Array.from(users_list.data));
+        setTotalPages(Math.floor(users_list.data.count / 50) + 1);
+        setUsers(Array.from(users_list.data.results));
       } else {
         setError(true);
       }
       setLoadingUsers(false);
     } catch (err) {
+      console.log(err);
       setLoadingUsers(false);
     }
+  };
+
+  const applyFilters = async () => {
+    await initializeUsers();
   };
 
   const handleUserEdit = async (user) => {
@@ -95,6 +123,21 @@ export default function UsersPage() {
   const closeDeleteUserConfirmation = () => {
     setDeleteConfirm(false);
     setConfirmBatchDeleteUsers(false);
+  };
+
+  const handleFilterChange = (event) => {
+    setError(false);
+    const { name, value } = event.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+  const handlePhoneNumberFilterChange = (event) => {
+    setError(false);
+    if (event == "+63" || event == undefined) {
+      setFilters({ ...filters, phone_number: "" });
+    } else {
+      setFilters({ ...filters, phone_number: event });
+    }
   };
 
   useEffect(() => {
@@ -149,6 +192,140 @@ export default function UsersPage() {
         }
       >
         <h2 className="text-2xl font-semibold mb-6 text-center">Users</h2>
+        <div className="grid grid-cols-2 gap-x-4 mb-8 p-4 rounded-[10px] bg-white drop-shadow-lg">
+          <h3 className="font-semibold mb-2 col-span-2">Filter by</h3>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Name
+            </label>
+            <input
+              type="text"
+              name="full_name"
+              value={filters.full_name}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={filters.email}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              ID
+            </label>
+            <input
+              type="text"
+              name="id"
+              value={filters.id}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Phone Number
+            </label>
+            <PhoneInput
+              country="PH"
+              name="phone_number"
+              value={filters.phone_number}
+              onChange={handlePhoneNumberFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Date Created
+            </label>
+            <input
+              type="date"
+              name="date_joined"
+              value={filters.date_joined}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Birthday
+            </label>
+            <input
+              type="date"
+              name="birthday"
+              value={filters.birthday}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Gender
+            </label>
+            <div className="flex flex-row items-center justify-around mt-2 mr-5">
+              <label htmlFor="two-pm" className="flex flex-row items-center">
+                <span className="mr-3 text-sm text-gray-700">Male</span>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={filters.gender == "male"}
+                  onChange={handleFilterChange}
+                  className="transition border-b outline-none border-gray-300 text-[12px] focus:border-black"
+                />
+              </label>
+              <label htmlFor="five-pm" className="flex flex-row">
+                <span className="mr-3 text-sm text-gray-700">Female</span>
+                <input
+                  type="radio"
+                  name="gender"
+                  checked={filters.gender == "female"}
+                  value="male"
+                  onChange={handleFilterChange}
+                  className="transition border-b outline-none border-gray-300 text-[10px] focus:border-black"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="flex flex-row col-span-2 mb-4 text-[12px]">
+            <button
+              onClick={applyFilters}
+              className="transition w-full bg-blue-600 text-white px-4 py-2 rounded-[5px] outline outline-blue-700 hover:bg-blue-700"
+            >
+              Apply Filters
+            </button>
+          </div>
+
+          <div className="flex flex-row col-span-2 mb-2 text-[12px]">
+            <button
+              onClick={() => {
+                setError(false);
+                setFilters({
+                  id: "",
+                  date_joined: "",
+                  full_name: "",
+                  email: "",
+                  phone_number: "",
+                  gender: "",
+                  birthday: "",
+                });
+              }}
+              className="transition w-full bg-transparent px-4 py-2 rounded-[5px] outline outline-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
         <div className="flex flex-row justify-between mb-4 p-4 rounded-[10px] bg-white drop-shadow-lg">
           <div className="">
             <span className="text-[12px]">
