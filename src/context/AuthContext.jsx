@@ -68,9 +68,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getTournaments = async () => {
+  const getTournaments = async (params) => {
     try {
-      const response = APItournaments.get("tournaments/");
+      const response = await APItournaments.get(
+        `tournaments/?${params.toString()}`
+      );
       return response;
     } catch (err) {
       return err;

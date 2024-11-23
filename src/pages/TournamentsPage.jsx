@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { useNavigate } from "react-router-dom";
+
 import Loading from "../components/Loading";
-import { AuthContext } from "../context/AuthContext";
 import BatchDeleteConfirmationModal from "../components/BatchDeleteConfirmationModal";
+
+import { AuthContext } from "../context/AuthContext";
 
 export default function TournamentsPage() {
   const { getTournaments } = useContext(AuthContext);
@@ -15,6 +16,15 @@ export default function TournamentsPage() {
     useState(false);
   const [tournamentEdit, setTournamentEdit] = useState(false);
   const [selectAllTournaments, setSelectAllTournaments] = useState(false);
+  const [filters, setFilters] = useState({
+    tournament_name: "",
+    description: "",
+    sport: "",
+    date_created__date: "",
+    tournament_start__date: "",
+    tournament_end__date: "",
+    id: "",
+  });
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -28,13 +38,27 @@ export default function TournamentsPage() {
   const initializeTournaments = async () => {
     try {
       setLoadingTournaments(true);
-      const tournaments_list = await getTournaments();
+      const params = {
+        tournament_name: filters.tournament_name,
+        description: filters.description,
+        sport: filters.sport,
+        date_created__date: filters.date_created__date,
+        tournament_start__date: filters.tournament_start__date,
+        tournament_end__date: filters.tournament_end__date,
+        id: filters.id,
+      };
+
+      const urlParams = new URLSearchParams({
+        page,
+        ...params,
+      });
+      const tournaments_list = await getTournaments(urlParams);
       console.log(tournaments_list);
       if (
         tournaments_list.status == 200 ||
         tournaments_list.statusText == "OK"
       ) {
-        setTournaments(Array.from(tournaments_list.data));
+        setTournaments(Array.from(tournaments_list.data.results));
       } else {
         setError(true);
         setLoadingTournaments(false);
@@ -68,6 +92,16 @@ export default function TournamentsPage() {
   const closeDeleteTournamentConfirmation = () => {
     setDeleteConfirm(false);
     setConfirmBatchDeleteTournaments(false);
+  };
+
+  const applyFilters = () => {
+    initializeTournaments();
+  };
+
+  const handleFilterChange = (event) => {
+    setError(false);
+    const { name, value } = event.target;
+    setFilters({ ...filters, [name]: value });
   };
 
   useEffect(() => {
@@ -108,6 +142,123 @@ export default function TournamentsPage() {
         }
       >
         <h2 className="text-2xl font-semibold mb-6 text-center">Tournaments</h2>
+        <div className="grid grid-cols-2 gap-x-4 mb-8 p-4 rounded-[10px] bg-white drop-shadow-lg">
+          <h3 className="font-semibold mb-2 col-span-2">Filter by</h3>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Tournament Name
+            </label>
+            <input
+              type="text"
+              name="tournament_name"
+              value={filters.tournament_name}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Description
+            </label>
+            <input
+              type="text"
+              name="description"
+              value={filters.description}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              ID
+            </label>
+            <input
+              type="text"
+              name="id"
+              value={filters.id}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Sport
+            </label>
+            <input
+              type="text"
+              name="sport"
+              value={filters.sport}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Date Created
+            </label>
+            <input
+              type="date"
+              name="date_created__date"
+              value={filters.date_created__date}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+          <div className="">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Date Start
+            </label>
+            <input
+              type="date"
+              name="date_start__date"
+              value={filters.date_start__date}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="" className="text-[12px] font-bold">
+              Date End
+            </label>
+            <input
+              type="date"
+              name="date_end__date"
+              value={filters.date_end__date}
+              onChange={handleFilterChange}
+              className="transition w-full mb-4 p-2 border-b outline-none border-gray-300 text-[12px] focus:border-black"
+            />
+          </div>
+
+          <div className="flex flex-row col-span-2 mb-4 text-[12px]">
+            <button
+              onClick={applyFilters}
+              className="transition w-full bg-blue-600 text-white px-4 py-2 rounded-[5px] outline outline-blue-700 hover:bg-blue-700"
+            >
+              Apply Filters
+            </button>
+          </div>
+
+          <div className="flex flex-row col-span-2 mb-2 text-[12px]">
+            <button
+              onClick={() => {
+                setError(false);
+                setFilters({
+                  id: "",
+                  date_joined: "",
+                  full_name: "",
+                  email: "",
+                  phone_number: "",
+                  gender: "",
+                  birthday: "",
+                });
+              }}
+              className="transition w-full bg-transparent px-4 py-2 rounded-[5px] outline outline-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
       </div>
       <div className="flex flex-row justify-between mb-4 p-4 rounded-[10px] bg-white drop-shadow-lg">
         <div className="">
@@ -276,7 +427,7 @@ export default function TournamentsPage() {
             )}
             {!loadingTournaments && error ? (
               <tr>
-                <td colSpan={7} className="py-4 text-[12px] font-bold">
+                <td colSpan={99} className="py-4 text-[12px] font-bold">
                   <div className="text-center">
                     Server error. Try refreshing the page.
                   </div>
