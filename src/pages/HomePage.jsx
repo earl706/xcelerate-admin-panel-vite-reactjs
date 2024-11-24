@@ -13,6 +13,16 @@ export default function HomePage() {
     users_length: "",
     users_forecast: "",
     users_forecast_list: "",
+    users_growth: {
+      one_day: 0,
+      five_days: 0,
+      twenty_days: 0,
+    },
+    tournaments_growth: {
+      one_day: 0,
+      five_days: 0,
+      twenty_days: 0,
+    },
   });
 
   const initializeSummaryData = async () => {
@@ -46,23 +56,64 @@ export default function HomePage() {
               <span>
                 1 Day:{" "}
                 <b>
-                  <span className="text-red-600">
-                    {summaryData.tournaments_forecast_list[1] -
-                      summaryData.tournaments_forecast_list[0]}
-                    %
+                  <span
+                    className={
+                      summaryData.tournaments_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.tournaments_growth.one_day > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.tournaments_growth.one_day == 0
+                      ? ""
+                      : summaryData.tournaments_growth.one_day > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.tournaments_growth.one_day}%
                   </span>
                 </b>
               </span>
               <span>
                 5 Days:{" "}
                 <b>
-                  <span className="text-green-600">+12%</span>
+                  <span
+                    className={
+                      summaryData.tournaments_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.tournaments_growth.five_days > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.tournaments_growth.five_days == 0
+                      ? ""
+                      : summaryData.tournaments_growth.five_days > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.tournaments_growth.five_days}%
+                  </span>
                 </b>
               </span>
               <span>
                 20 Days:{" "}
                 <b>
-                  <span className="text-red-600">-52%</span>
+                  <span
+                    className={
+                      summaryData.tournaments_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.tournaments_growth.twenty_days > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.tournaments_growth.twenty_days == 0
+                      ? ""
+                      : summaryData.tournaments_growth.twenty_days > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.tournaments_growth.twenty_days}%
+                  </span>
                 </b>
               </span>
             </div>
@@ -80,19 +131,64 @@ export default function HomePage() {
               <span>
                 1 Day:{" "}
                 <b>
-                  <span className="text-red-600">-52%</span>
+                  <span
+                    className={
+                      summaryData.users_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.users_growth.one_day > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.users_growth.one_day == 0
+                      ? ""
+                      : summaryData.users_growth.one_day > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.users_growth.one_day}%
+                  </span>
                 </b>
               </span>
               <span>
                 5 Days:{" "}
                 <b>
-                  <span className="text-green-600">+52%</span>
+                  <span
+                    className={
+                      summaryData.users_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.users_growth.five_days > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.users_growth.five_days == 0
+                      ? ""
+                      : summaryData.users_growth.five_days > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.users_growth.five_days}%
+                  </span>
                 </b>
               </span>
               <span>
                 20 Days:{" "}
                 <b>
-                  <span className="text-red-600">-52%</span>
+                  <span
+                    className={
+                      summaryData.users_growth.twenty_days == 0
+                        ? ""
+                        : summaryData.users_growth.twenty_days > 0
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }
+                  >
+                    {summaryData.users_growth.twenty_days == 0
+                      ? ""
+                      : summaryData.users_growth.twenty_days > 0
+                      ? "+"
+                      : "-"}
+                    {summaryData.users_growth.twenty_days}%
+                  </span>
                 </b>
               </span>
             </div>
