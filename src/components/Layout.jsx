@@ -4,6 +4,10 @@ import { NavLink } from "react-router-dom";
 export default function Layout({ children }) {
   const navigationItems = [
     {
+      navItem: "Home",
+      link: "/home",
+    },
+    {
       navItem: "Users",
       link: "/users",
     },

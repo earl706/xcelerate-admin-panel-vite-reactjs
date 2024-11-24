@@ -117,6 +117,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getAdminSummary = async () => {
+    try {
+      const response = await APIusers.get("admin-summary/");
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -133,6 +142,8 @@ export const AuthProvider = ({ children }) => {
         getTournament,
         createTournament,
         deleteTournaments,
+
+        getAdminSummary,
       }}
     >
       {children}

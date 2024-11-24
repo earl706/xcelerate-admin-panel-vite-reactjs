@@ -21,7 +21,7 @@ export default function LoginPage({ onLogin }) {
       const login_response = await login(username, password);
       if (login_response.status == 200 || login_response.statusText == "OK") {
         onLogin();
-        navigate("/users");
+        navigate("/home");
       } else {
         setErrorMessage(login_response.code);
         setError(true);

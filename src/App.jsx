@@ -4,14 +4,15 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
 
-import UserDetailPage from "./pages/UserDetailPage";
-import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
 import TournamentsPage from "./pages/TournamentsPage";
-import TournamentDetailPage from "./pages/TournamentDetailPage";
-import FindTournamentPage from "./pages/FindTournamentPage";
-import CreateTournament from "./pages/CreateTournament";
 import UsersPage from "./pages/UsersPage";
+import LoginPage from "./pages/LoginPage";
+import UserDetailPage from "./pages/UserDetailPage";
+import TournamentDetailPage from "./pages/TournamentDetailPage";
+import CreateTournament from "./pages/CreateTournament";
 import CreateUser from "./pages/CreateUser";
+import FindTournamentPage from "./pages/FindTournamentPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,6 +51,10 @@ function App() {
     {
       element: <FindTournamentPage />,
       path: "/find-tournaments",
+    },
+    {
+      element: <HomePage />,
+      path: "/home",
     },
   ];
 
