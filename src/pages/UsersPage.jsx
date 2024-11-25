@@ -84,7 +84,6 @@ export default function UsersPage() {
         ...params,
       });
       const users_list = await getUsers(urlParams);
-      console.log(users_list);
       if (users_list.status == 200 || users_list.statusText == "OK") {
         setTotalPages(Math.floor(users_list.data.count / 50) + 1);
         setUsers(Array.from(users_list.data.results));
@@ -93,7 +92,6 @@ export default function UsersPage() {
       }
       setLoadingUsers(false);
     } catch (err) {
-      console.log(err);
       setLoadingUsers(false);
     }
   };

@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+import Loading from "../components/Loading";
+
 export default function HomePage() {
   const { getAdminSummary } = useContext(AuthContext);
 
@@ -27,9 +29,10 @@ export default function HomePage() {
 
   const initializeSummaryData = async () => {
     try {
+      setLoading(true);
       const adminSummaryResponse = await getAdminSummary();
       setSummaryData(adminSummaryResponse.data.data);
-      console.log(adminSummaryResponse);
+      setLoading(false);
       return adminSummaryResponse;
     } catch (err) {
       console.log(err);
@@ -50,71 +53,107 @@ export default function HomePage() {
           </span>
           <div className="flex justify-around py-2 font-semibold">
             <span className="text-[50px] font-bold">
-              {summaryData.tournaments_length}
+              {loading ? (
+                <div
+                  className={
+                    loading
+                      ? "flex justify-center items-center h-full w-full"
+                      : "hidden"
+                  }
+                  style={{ display: loading ? "flex" : "none" }}
+                >
+                  <Loading size={5} light={true} />
+                </div>
+              ) : (
+                summaryData.tournaments_length
+              )}
             </span>
             <div className="flex flex-col">
-              <span>
-                1 Day:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.tournaments_growth.twenty_days == 0
-                        ? ""
-                        : summaryData.tournaments_growth.one_day > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.tournaments_growth.one_day == 0
-                      ? ""
-                      : summaryData.tournaments_growth.one_day > 0
-                      ? "+"
-                      : "-"}
-                    {summaryData.tournaments_growth.one_day}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>1 Day:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.tournaments_growth.one_day == 0
+                          ? ""
+                          : summaryData.tournaments_growth.one_day > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${
+                        summaryData.tournaments_growth.one_day > 0 ? "+" : ""
+                      }${summaryData.tournaments_growth.one_day}%`}
+                    </span>
+                  </b>
+                )}
               </span>
-              <span>
-                5 Days:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.tournaments_growth.twenty_days == 0
-                        ? ""
-                        : summaryData.tournaments_growth.five_days > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.tournaments_growth.five_days == 0
-                      ? ""
-                      : summaryData.tournaments_growth.five_days > 0
-                      ? "+"
-                      : "-"}
-                    {summaryData.tournaments_growth.five_days}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>5 Days:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.tournaments_growth.five_days == 0
+                          ? ""
+                          : summaryData.tournaments_growth.five_days > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${
+                        summaryData.tournaments_growth.five_days > 0 ? "+" : ""
+                      }${summaryData.tournaments_growth.five_days}%`}
+                    </span>
+                  </b>
+                )}
               </span>
-              <span>
-                20 Days:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.tournaments_growth.twenty_days == 0
-                        ? ""
-                        : summaryData.tournaments_growth.twenty_days > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.tournaments_growth.twenty_days == 0
-                      ? ""
-                      : summaryData.tournaments_growth.twenty_days > 0
-                      ? "+"
-                      : "-"}
-                    {summaryData.tournaments_growth.twenty_days}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>20 Days:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.tournaments_growth.twenty_days == 0
+                          ? ""
+                          : summaryData.tournaments_growth.twenty_days > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${
+                        summaryData.tournaments_growth.twenty_days > 0
+                          ? "+"
+                          : ""
+                      }${summaryData.tournaments_growth.twenty_days}%`}
+                    </span>
+                  </b>
+                )}
               </span>
             </div>
           </div>
@@ -125,7 +164,20 @@ export default function HomePage() {
           </span>
           <div className="flex justify-around py-2 font-semibold">
             <span className="text-[50px] font-bold">
-              {summaryData.users_length}
+              {loading ? (
+                <div
+                  className={
+                    loading
+                      ? "flex justify-center items-center h-full w-full"
+                      : "hidden"
+                  }
+                  style={{ display: loading ? "flex" : "none" }}
+                >
+                  <Loading size={5} light={true} />
+                </div>
+              ) : (
+                summaryData.users_length
+              )}
             </span>
             <div className="flex flex-col">
               <span>
@@ -133,18 +185,14 @@ export default function HomePage() {
                 <b>
                   <span
                     className={
-                      summaryData.users_growth.twenty_days == 0
+                      summaryData.users_growth.one_day == 0
                         ? ""
                         : summaryData.users_growth.one_day > 0
                         ? "text-green-600"
                         : "text-red-600"
                     }
                   >
-                    {summaryData.users_growth.one_day == 0
-                      ? ""
-                      : summaryData.users_growth.one_day > 0
-                      ? "+"
-                      : "-"}
+                    {summaryData.users_growth.one_day > 0 ? "+" : ""}
                     {summaryData.users_growth.one_day}%
                   </span>
                 </b>
@@ -154,18 +202,14 @@ export default function HomePage() {
                 <b>
                   <span
                     className={
-                      summaryData.users_growth.twenty_days == 0
+                      summaryData.users_growth.five_days == 0
                         ? ""
                         : summaryData.users_growth.five_days > 0
                         ? "text-green-600"
                         : "text-red-600"
                     }
                   >
-                    {summaryData.users_growth.five_days == 0
-                      ? ""
-                      : summaryData.users_growth.five_days > 0
-                      ? "+"
-                      : "-"}
+                    {summaryData.users_growth.five_days > 0 ? "+" : ""}
                     {summaryData.users_growth.five_days}%
                   </span>
                 </b>
@@ -182,11 +226,7 @@ export default function HomePage() {
                         : "text-red-600"
                     }
                   >
-                    {summaryData.users_growth.twenty_days == 0
-                      ? ""
-                      : summaryData.users_growth.twenty_days > 0
-                      ? "+"
-                      : "-"}
+                    {summaryData.users_growth.twenty_days > 0 ? "+" : ""}
                     {summaryData.users_growth.twenty_days}%
                   </span>
                 </b>
