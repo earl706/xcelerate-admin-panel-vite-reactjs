@@ -180,56 +180,89 @@ export default function HomePage() {
               )}
             </span>
             <div className="flex flex-col">
-              <span>
-                1 Day:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.users_growth.one_day == 0
-                        ? ""
-                        : summaryData.users_growth.one_day > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.users_growth.one_day > 0 ? "+" : ""}
-                    {summaryData.users_growth.one_day}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>1 Day:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.users_growth.one_day == 0
+                          ? ""
+                          : summaryData.users_growth.one_day > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${summaryData.users_growth.one_day > 0 ? "+" : ""}${
+                        summaryData.users_growth.one_day
+                      }%`}
+                    </span>
+                  </b>
+                )}
               </span>
-              <span>
-                5 Days:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.users_growth.five_days == 0
-                        ? ""
-                        : summaryData.users_growth.five_days > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.users_growth.five_days > 0 ? "+" : ""}
-                    {summaryData.users_growth.five_days}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>5 Days:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.users_growth.five_days == 0
+                          ? ""
+                          : summaryData.users_growth.five_days > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${summaryData.users_growth.five_days > 0 ? "+" : ""}${
+                        summaryData.users_growth.five_days
+                      }%`}
+                    </span>
+                  </b>
+                )}
               </span>
-              <span>
-                20 Days:{" "}
-                <b>
-                  <span
-                    className={
-                      summaryData.users_growth.twenty_days == 0
-                        ? ""
-                        : summaryData.users_growth.twenty_days > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }
-                  >
-                    {summaryData.users_growth.twenty_days > 0 ? "+" : ""}
-                    {summaryData.users_growth.twenty_days}%
-                  </span>
-                </b>
+              <span className="flex flex-row items-center">
+                <span>20 Days:</span>
+                {loading ? (
+                  <div className="ml-[5px]">
+                    <Loading
+                      size={5}
+                      light={true}
+                      style={{ marginLeft: "4px" }}
+                    />
+                  </div>
+                ) : (
+                  <b className="ml-[5px]">
+                    <span
+                      className={
+                        summaryData.users_growth.twenty_days == 0
+                          ? ""
+                          : summaryData.users_growth.twenty_days > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }
+                    >
+                      {` ${
+                        summaryData.users_growth.twenty_days > 0 ? "+" : ""
+                      }${summaryData.users_growth.twenty_days}%`}
+                    </span>
+                  </b>
+                )}
               </span>
             </div>
           </div>
