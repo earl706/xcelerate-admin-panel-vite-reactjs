@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import PhoneInput from "react-phone-number-input/input";
 import { AuthContext } from "../context/AuthContext";
 import Loading from "../components/Loading";
 
@@ -59,7 +58,6 @@ export default function CreateTournament() {
       bracketingSystem != "" &&
       requirements != ""
     ) {
-      console.log("Submit triggered valid data");
       try {
         setLoading(true);
         const formData = new FormData();

@@ -7,6 +7,10 @@ import BatchDeleteConfirmationModal from "../components/BatchDeleteConfirmationM
 import { AuthContext } from "../context/AuthContext";
 
 export default function TournamentsPage() {
+  const productionAPIURL = import.meta.env.VITE_PRODUCTION_API_URL;
+  const developmentAPIURL = import.meta.env.VITE_DEVELOPMENT_API_URL;
+  const inProduction = import.meta.env.VITE_IN_PRODUCTION;
+
   const { getTournaments } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -338,8 +342,9 @@ export default function TournamentsPage() {
                   <td className="px-4 py-2">{tournament.id}</td>
                   <td className="px-4 py-2">
                     <img
-                      // src={`https://excelerate-drf-media-bucket.s3.amazonaws.com/api/tournaments${tournament.tournament_banner}`}
-                      src={`http://127.0.0.1:8000/api/tournaments${tournament.tournament_banner}`}
+                      src={`${
+                        inProduction ? productionAPIURL : developmentAPIURL
+                      }api/tournaments${tournament.tournament_banner}`}
                       alt=""
                       className="w-12 h-12 rounded-[50%]"
                     />
