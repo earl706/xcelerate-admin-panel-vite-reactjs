@@ -339,7 +339,7 @@ export default function TournamentsPage() {
                   <td className="px-4 py-2">
                     <img
                       // src={`https://excelerate-drf-media-bucket.s3.amazonaws.com/api/tournaments${tournament.tournament_banner}`}
-                      src={`${tournament.tournament_banner}`}
+                      src={`http://127.0.0.1:8000/api/tournaments${tournament.tournament_banner}`}
                       alt=""
                       className="w-12 h-12 rounded-[50%]"
                     />

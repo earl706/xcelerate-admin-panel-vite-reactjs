@@ -400,7 +400,7 @@ export default function UsersPage() {
                     <td className="px-4 py-2">{user.id}</td>
                     <td className="px-4 py-2">
                       <img
-                        src={user.profile_picture}
+                        src={`http://127.0.0.1:8000/api/tournaments${user.profile_picture}`}
                         alt=""
                         className="w-12 h-12 rounded-[50%]"
                       />
