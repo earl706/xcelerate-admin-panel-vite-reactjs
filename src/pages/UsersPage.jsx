@@ -401,7 +401,9 @@ export default function UsersPage() {
                     <td className="px-4 py-2">
                       <img
                         src={`${
-                          inProduction ? productionAPIURL : developmentAPIURL
+                          inProduction == "true"
+                            ? productionAPIURL
+                            : developmentAPIURL
                         }api/tournaments${user.profile_picture}`}
                         alt=""
                         className="w-12 h-12 rounded-[50%]"

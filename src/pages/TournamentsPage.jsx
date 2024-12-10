@@ -343,7 +343,9 @@ export default function TournamentsPage() {
                   <td className="px-4 py-2">
                     <img
                       src={`${
-                        inProduction ? productionAPIURL : developmentAPIURL
+                        inProduction == "true"
+                          ? productionAPIURL
+                          : developmentAPIURL
                       }api/tournaments${tournament.tournament_banner}`}
                       alt=""
                       className="w-12 h-12 rounded-[50%]"
