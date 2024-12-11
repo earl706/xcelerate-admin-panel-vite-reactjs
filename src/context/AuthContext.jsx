@@ -126,6 +126,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const activateUser = async (uId, token) => {
+    try {
+      const response = await APIusers.get(`auth/activate/${uId}/${token}/`);
+      return response;
+    } catch (err) {
+      return err;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -135,6 +144,7 @@ export const AuthProvider = ({ children }) => {
         getUser,
         updateUser,
         deleteUsers,
+        activateUser,
 
         refreshToken,
 
