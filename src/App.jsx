@@ -13,6 +13,8 @@ import TournamentDetailPage from "./pages/TournamentDetailPage";
 import CreateTournament from "./pages/CreateTournament";
 import CreateUser from "./pages/CreateUser";
 import FindTournamentPage from "./pages/FindTournamentPage";
+import Activation from "./pages/Activation";
+import EmailActivation from "./pages/EmailActivation";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,6 +57,14 @@ function App() {
     {
       element: <HomePage />,
       path: "/home",
+    },
+    {
+      element: <Activation />,
+      path: "/activation",
+    },
+    {
+      element: <EmailActivation />,
+      path: "/email-activation",
     },
   ];
 

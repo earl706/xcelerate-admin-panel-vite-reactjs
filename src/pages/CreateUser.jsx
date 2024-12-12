@@ -50,6 +50,7 @@ export default function CreateUser() {
         const formData = new FormData();
         formData.append("full_name", username);
         formData.append("password", password);
+        formData.append("re_password", password);
         formData.append("phone_number", phoneNumber);
         formData.append("email", email);
         formData.append("gender", gender);
@@ -74,6 +75,7 @@ export default function CreateUser() {
       } catch (err) {
         setLoading(false);
         setUserError(true);
+        console.log(err);
         return err;
       }
     }
@@ -86,7 +88,6 @@ export default function CreateUser() {
   };
 
   useEffect(() => {
-    console.log(profilePicture);
     formatDefaultBirthdate();
   }, [profilePicture]);
 
