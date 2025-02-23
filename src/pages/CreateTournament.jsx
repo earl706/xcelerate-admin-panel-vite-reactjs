@@ -100,6 +100,33 @@ export default function CreateTournament() {
     }
   };
 
+  const bracketing_systems = [
+    {
+      name: "Single Elimination",
+      system: "single_elimination",
+    },
+    {
+      name: "Double Elimination",
+      system: "double_elimination",
+    },
+    {
+      name: "Round Robin",
+      system: "round_robin",
+    },
+    {
+      name: "Swiss",
+      system: "swiss",
+    },
+    {
+      name: "Free For All",
+      system: "free_for_all",
+    },
+    {
+      name: "Leaderboard",
+      system: "leaderboard",
+    },
+  ];
+
   useEffect(() => {
     console.log(tournamentBanner);
   }, [tournamentBanner]);
@@ -224,18 +251,25 @@ export default function CreateTournament() {
             <label className="block mb-2 text-sm font-semibold text-gray-700">
               Bracketing System
             </label>
-            <input
-              type="text"
-              value={bracketingSystem}
-              onChange={(e) => {
-                setTournamentCreated(false);
-                setTournamentError(false);
-                setBracketingSystem(e.target.value);
-              }}
-              placeholder="Bracketing System"
-              className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
-              required
-            />
+            <div className="grid grid-cols-3 gap-2">
+              {bracketing_systems.map((bracket, index) => (
+                <span
+                  className={`transition px-4 py-2 text-center font-bold rounded-lg text-white cursor-pointer  ${
+                    bracketingSystem == bracket.system
+                      ? "bg-blue-600 hover:bg-blue-400 hover:text-black"
+                      : "bg-gray-600 hover:bg-gray-400 hover:text-black"
+                  }`}
+                  key={index}
+                  onClick={() => {
+                    setBracketingSystem(bracket.system);
+                    setTournamentCreated(false);
+                    setTournamentError(false);
+                  }}
+                >
+                  {bracket.name}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="mb-6">
             <label className="block mb-2 text-sm font-semibold text-gray-700">

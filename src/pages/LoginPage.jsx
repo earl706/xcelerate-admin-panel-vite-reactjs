@@ -8,7 +8,7 @@ export default function LoginPage({ onLogin }) {
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,8 @@ export default function LoginPage({ onLogin }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const login_response = await login(username, password);
+      const login_response = await login(email, password);
+      console.log(login_response);
       if (login_response.status == 200 || login_response.statusText == "OK") {
         onLogin();
         navigate("/home");
@@ -82,7 +83,7 @@ export default function LoginPage({ onLogin }) {
             <div>
               <label
                 className={
-                  username != ""
+                  email != ""
                     ? "transition block mb-1 text-sm font-bold text-gray-700"
                     : "transition block mb-1 text-sm font-bold text-transparent"
                 }
@@ -91,9 +92,9 @@ export default function LoginPage({ onLogin }) {
               </label>
               <input
                 type="text"
-                value={username}
+                value={email}
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setEmail(e.target.value);
                   setError(false);
                 }}
                 placeholder="Username"

@@ -5,7 +5,6 @@ import Loading from "../components/Loading";
 
 export default function HomePage() {
   const { getAdminSummary } = useContext(AuthContext);
-
   const [loading, setLoading] = useState(false);
 
   const [summaryData, setSummaryData] = useState({
@@ -35,7 +34,7 @@ export default function HomePage() {
       setLoading(false);
       return adminSummaryResponse;
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 

@@ -18,6 +18,7 @@ export default function UsersPage() {
   const navigate = useNavigate();
 
   const [error, setError] = useState(false);
+  const [userDeleteID, setUserDeleteID] = useState(null);
   const [transactions20Days, setTransactions20Days] = useState([]);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [confirmBatchDeleteUsers, setConfirmBatchDeleteUsers] = useState(false);

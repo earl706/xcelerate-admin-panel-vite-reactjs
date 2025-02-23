@@ -31,7 +31,6 @@ export default function CreateUser() {
 
   const handleCreateUserSubmit = async (event) => {
     event.preventDefault();
-
     if (
       username != "" &&
       phoneNumber != "" &&
@@ -39,6 +38,7 @@ export default function CreateUser() {
       passwordConfirmation != "" &&
       password == passwordConfirmation
     ) {
+      console.log("submit triggered");
       try {
         setLoading(true);
         const data = {

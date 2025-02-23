@@ -5,10 +5,10 @@ import APItournaments from "../services/apiTournaments";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const login = async (full_name, password) => {
+  const login = async (email, password) => {
     try {
       const login_response = await APIusers.post("login-admin/", {
-        full_name,
+        email,
         password,
       });
       console.log(login);
