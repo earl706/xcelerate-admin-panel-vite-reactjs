@@ -4,11 +4,65 @@ import Loading from "../components/Loading";
 
 export default function CreateTournament() {
   const { createTournament } = useContext(AuthContext);
+  const sports_suggestions = [
+    "Soccer",
+    "Football",
+    "Basketball",
+    "Cricket",
+    "Tennis",
+    "Baseball",
+    "Golf",
+    "American Football",
+    "Rugby",
+    "Hockey",
+    "Table Tennis",
+    "Badminton",
+    "Volleyball",
+    "Swimming",
+    "Cycling",
+    "Athletics",
+    "Boxing",
+    "MMA",
+    "Wrestling",
+    "Judo",
+    "Karate",
+    "Taekwondo",
+    "Fencing",
+    "Archery",
+    "Gymnastics",
+    "Rowing",
+    "Canoeing",
+    "Diving",
+    "Water Polo",
+    "Surfing",
+    "Skiing",
+    "Snowboarding",
+    "Ice Hockey",
+    "Figure Skating",
+    "Equestrian",
+    "Lacrosse",
+    "Handball",
+    "Squash",
+    "Racquetball",
+    "Bowling",
+    "Chess",
+    "Darts",
+    "Billiards",
+    "Motorsport",
+    "Skateboarding",
+    "Rock Climbing",
+    "Triathlon",
+    "Powerlifting",
+    "Weightlifting",
+    "Snooker",
+    "Ultimate Frisbee",
+  ];
 
   const [loading, setLoading] = useState(false);
 
   const [tournamentBanner, setTournamentBanner] = useState(null);
   const [tournamentCreated, setTournamentCreated] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [tournamentCreatedData, setTournamentCreatedData] = useState({
     tournament_name: "",
     description: "",
@@ -33,6 +87,26 @@ export default function CreateTournament() {
 
   const handleTournamentBannerChange = (e) => {
     setTournamentBanner(e.target.files[0]);
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSport(value);
+
+    // Filter suggestions
+    if (value.length > 0) {
+      const filtered = sports_suggestions.filter((item) =>
+        item.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+    } else {
+      setFilteredSuggestions([]);
+    }
+  };
+
+  const handleSelect = (suggestion) => {
+    setSport(suggestion);
+    setFilteredSuggestions([]);
   };
 
   const handleCreateTournamentSubmit = async (event) => {
@@ -203,15 +277,24 @@ export default function CreateTournament() {
             <input
               type="text"
               value={sport}
-              onChange={(e) => {
-                setTournamentCreated(false);
-                setTournamentError(false);
-                setSport(e.target.value);
-              }}
+              onChange={handleChange}
               placeholder="Sport"
               className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
               required
             />
+            {filteredSuggestions.length > 0 && (
+              <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+                {filteredSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelect(suggestion)}
+                    className="p-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div className="mb-6">
             <label className="block mb-2 text-sm font-semibold text-gray-700">
@@ -299,7 +382,7 @@ export default function CreateTournament() {
                 <div className={loading ? "mr-2" : "hidden"}>
                   <Loading size={5} light={false} />
                 </div>
-                <span>Create User</span>
+                <span>Create Tournament</span>
               </div>
             </button>
           </div>
