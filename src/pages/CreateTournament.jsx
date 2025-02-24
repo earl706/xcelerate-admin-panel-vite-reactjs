@@ -4,9 +4,120 @@ import Loading from "../components/Loading";
 
 export default function CreateTournament() {
   const { createTournament } = useContext(AuthContext);
+  const commonRequirements = [
+    "PSA Birth Certificate",
+    "Medical Certificate",
+    "Valid ID (School ID, Government-issued ID)",
+    "Signed Waiver or Parental Consent",
+    "Official Team Roster",
+    "Uniform Compliance ",
+    "Registration Fee Payment",
+    "Tournament Code of Conduct Agreement",
+    "Proof of Residency ",
+    "Pre-tournament Meeting Attendance",
+  ];
+  const sportsTournaments = [
+    "Palarong Pambansa",
+    "Philippine National Games",
+    "Philippine Basketball Association (PBA) Season",
+    "University Athletic Association of the Philippines (UAAP) Season",
+    "National Collegiate Athletic Association (NCAA) Philippines Season",
+    "Shakey's V-League",
+    "Philippine Super Liga (PSL)",
+    "Premier Volleyball League (PVL)",
+    "Philippine Football League (PFL)",
+    "Metropolitan Basketball Association (MBA)",
+    "ASEAN Basketball League (ABL)",
+    "Maharlika Pilipinas Basketball League (MPBL)",
+    "Philippine Cup",
+    "Commissioner's Cup",
+    "Governors' Cup",
+    "Filoil Flying V Preseason Cup",
+    "FilOil EcoOil Preseason Cup",
+    "Smart City Hoops Summer Classic",
+    "PBA D-League Aspirants' Cup",
+    "PBA D-League Foundation Cup",
+    "PBA 3x3",
+    "Chooks-to-Go Pilipinas 3x3",
+    "National Basketball Training Center (NBTC) League",
+    "National Basketball League (NBL) Philippines",
+    "Women's National Basketball League (WNBL) Philippines",
+    "Philippine Collegiate Champions League (PCCL)",
+    "Philippine Secondary Schools Basketball Championship (PSSBC)",
+    "Philippine Intercollegiate Basketball Championship",
+    "Philippine Inter-Scholastic Basketball Championship",
+    "Philippine Inter-Secondary Basketball Championship",
+    "Philippine Inter-High School Basketball Championship",
+    "Philippine Inter-Elementary Basketball Championship",
+    "Philippine Inter-Barangay Basketball Tournament",
+    "Philippine Inter-Town Basketball Tournament",
+    "Philippine Inter-City Basketball Tournament",
+    "Philippine Inter-Province Basketball Tournament",
+    "Philippine Inter-Regional Basketball Tournament",
+    "Philippine Inter-Island Basketball Tournament",
+    "Philippine Inter-Zonal Basketball Tournament",
+    "Philippine Inter-District Basketball Tournament",
+    "Philippine Inter-Municipality Basketball Tournament",
+    "Philippine Inter-Department Basketball Tournament",
+    "Philippine Inter-Agency Basketball Tournament",
+    "Philippine Inter-Company Basketball Tournament",
+    "Philippine Inter-Organization Basketball Tournament",
+    "Philippine Inter-Association Basketball Tournament",
+    "Philippine Inter-League Basketball Tournament",
+    "Philippine Inter-Club Basketball Tournament",
+    "Philippine Inter-School Basketball Tournament",
+    "Philippine Inter-University Basketball Tournament",
+    "Philippine Inter-College Basketball Tournament",
+    "Philippine Inter-Institution Basketball Tournament",
+    "Philippine Inter-Office Basketball Tournament",
+    "Philippine Inter-Branch Basketball Tournament",
+    "Philippine Inter-Division Basketball Tournament",
+    "Philippine Inter-Section Basketball Tournament",
+    "Philippine Inter-Unit Basketball Tournament",
+    "Philippine Inter-Group Basketball Tournament",
+    "Philippine Inter-Team Basketball Tournament",
+    "Philippine Inter-Squad Basketball Tournament",
+    "Philippine Inter-Platoon Basketball Tournament",
+    "Philippine Inter-Company Volleyball Tournament",
+    "Philippine Inter-Organization Volleyball Tournament",
+    "Philippine Inter-Association Volleyball Tournament",
+    "Philippine Inter-League Volleyball Tournament",
+    "Philippine Inter-Club Volleyball Tournament",
+    "Philippine Inter-School Volleyball Tournament",
+    "Philippine Inter-University Volleyball Tournament",
+    "Philippine Inter-College Volleyball Tournament",
+    "Philippine Inter-Institution Volleyball Tournament",
+    "Philippine Inter-Office Volleyball Tournament",
+    "Philippine Inter-Branch Volleyball Tournament",
+    "Philippine Inter-Division Volleyball Tournament",
+    "Philippine Inter-Section Volleyball Tournament",
+    "Philippine Inter-Unit Volleyball Tournament",
+    "Philippine Inter-Group Volleyball Tournament",
+    "Philippine Inter-Team Volleyball Tournament",
+    "Philippine Inter-Squad Volleyball Tournament",
+    "Philippine Inter-Platoon Volleyball Tournament",
+    "Philippine Inter-Company Football Tournament",
+    "Philippine Inter-Organization Football Tournament",
+    "Philippine Inter-Association Football Tournament",
+    "Philippine Inter-League Football Tournament",
+    "Philippine Inter-Club Football Tournament",
+    "Philippine Inter-School Football Tournament",
+    "Philippine Inter-University Football Tournament",
+    "Philippine Inter-College Football Tournament",
+    "Philippine Inter-Institution Football Tournament",
+    "Philippine Inter-Office Football Tournament",
+    "Philippine Inter-Branch Football Tournament",
+    "Philippine Inter-Division Football Tournament",
+    "Philippine Inter-Section Football Tournament",
+    "Philippine Inter-Unit Football Tournament",
+    "Philippine Inter-Group Football Tournament",
+    "Philippine Inter-Team Football Tournament",
+    "Philippine Inter-Squad Football Tournament",
+    "Philippine Inter-Platoon Football Tournament",
+  ];
+
   const sports_suggestions = [
     "Soccer",
-    "Football",
     "Basketball",
     "Cricket",
     "Tennis",
@@ -56,13 +167,73 @@ export default function CreateTournament() {
     "Weightlifting",
     "Snooker",
     "Ultimate Frisbee",
+    "Sepak Takraw",
+    "Polo",
+    "Kabaddi",
+    "Muay Thai",
+    "Parkour",
+    "Freediving",
+    "Base Jumping",
+    "Bobsleigh",
+    "Curling",
+    "Biathlon",
+    "Speed Skating",
+    "Nordic Combined",
+    "Luge",
+    "Synchronized Swimming",
+    "BMX Racing",
+    "Mountain Biking",
+    "Enduro Racing",
+    "Trail Running",
+    "Orienteering",
+    "Dodgeball",
+    "Kickball",
+    "Inline Skating",
+    "Street Hockey",
+    "Field Hockey",
+    "Inline Hockey",
+    "Australian Rules Football",
+    "Gaelic Football",
+    "Hurling",
+    "Underwater Hockey",
+    "Underwater Rugby",
+    "Strongman",
+    "Arm Wrestling",
+    "Sumo Wrestling",
+    "Tug of War",
+    "Kendo",
+    "Petanque",
+    "Bocce",
+    "Pickleball",
+    "Speedcubing",
+    "Football",
+    "Paintball",
+    "Airsoft",
+    "Drone Racing",
+    "Esports",
+    "Bodybuilding",
+    "CrossFit",
+    "Frisbee Golf",
+    "High Diving",
+    "Pole Vault",
+    "Shot Put",
+    "Discus Throw",
+    "Hammer Throw",
+    "Javelin Throw",
+    "Steeplechase",
+    "Marathon",
+    "Decathlon",
   ];
 
   const [loading, setLoading] = useState(false);
 
   const [tournamentBanner, setTournamentBanner] = useState(null);
   const [tournamentCreated, setTournamentCreated] = useState(false);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [filteredSportsSuggestions, setFilteredSportsSuggestions] = useState(
+    []
+  );
+  const [filteredTournamentsSuggestions, setFilteredTournamentsSuggestions] =
+    useState([]);
   const [tournamentCreatedData, setTournamentCreatedData] = useState({
     tournament_name: "",
     description: "",
@@ -83,20 +254,19 @@ export default function CreateTournament() {
   const [tournamentStart, setTournamentStart] = useState("");
   const [tournamentEnd, setTournamentEnd] = useState("");
   const [bracketingSystem, setBracketingSystem] = useState("");
-  const [requirements, setRequirements] = useState("");
+  const [requirements, setRequirements] = useState([]);
 
   const handleTournamentBannerChange = (e) => {
     setTournamentBanner(e.target.files[0]);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, suggestions, setState, setFilteredSuggestions) => {
     const value = e.target.value;
-    setSport(value);
+    setState(value);
 
-    // Filter suggestions
     if (value.length > 0) {
-      const filtered = sports_suggestions.filter((item) =>
-        item.toLowerCase().startsWith(value.toLowerCase())
+      const filtered = suggestions.filter((item) =>
+        item.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredSuggestions(filtered);
     } else {
@@ -104,8 +274,8 @@ export default function CreateTournament() {
     }
   };
 
-  const handleSelect = (suggestion) => {
-    setSport(suggestion);
+  const handleSelect = (suggestion, setState, setFilteredSuggestions) => {
+    setState(suggestion);
     setFilteredSuggestions([]);
   };
 
@@ -122,7 +292,6 @@ export default function CreateTournament() {
       bracketing_system: bracketingSystem,
       requirements: requirements,
     };
-    console.log(data);
     if (
       tournamentName != "" &&
       description != "" &&
@@ -143,12 +312,11 @@ export default function CreateTournament() {
         formData.append("tournament_start", tournamentStart);
         formData.append("tournament_end", tournamentEnd);
         formData.append("bracketing_system", bracketingSystem);
-        formData.append("requirements", requirements.split(","));
-        requirements.split(",").forEach((requirement, index) => {
-          formData.append(`requirements[${index}]`, requirement);
-        });
+        formData.append("requirements", requirements);
+        // requirements.split(",").forEach((requirement, index) => {
+        //   formData.append(`requirements[${index}]`, requirement);
+        // });
         const register_response = await createTournament(formData);
-        console.log(register_response);
         setTournamentCreatedData(register_response.data);
         if (register_response.statusText == "OK") {
           setTournamentCreated(true);
@@ -159,7 +327,7 @@ export default function CreateTournament() {
           setTournamentStart("");
           setTournamentEnd("");
           setBracketingSystem("");
-          setRequirements("");
+          setRequirements([]);
         } else {
           setTournamentError(true);
         }
@@ -205,6 +373,10 @@ export default function CreateTournament() {
     console.log(tournamentBanner);
   }, [tournamentBanner]);
 
+  useEffect(() => {
+    console.log(requirements);
+  }, [requirements]);
+
   return (
     <>
       <h2 className="text-2xl font-semibold mb-6 text-center">
@@ -243,15 +415,37 @@ export default function CreateTournament() {
             <input
               type="text"
               value={tournamentName}
-              onChange={(e) => {
-                setTournamentCreated(false);
-                setTournamentError(false);
-                setTournamentName(e.target.value);
-              }}
+              onChange={(e) =>
+                handleChange(
+                  e,
+                  sportsTournaments,
+                  setTournamentName,
+                  setFilteredTournamentsSuggestions
+                )
+              }
               placeholder="Tournament Name"
               className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
               required
             />
+            {filteredTournamentsSuggestions.length > 0 && (
+              <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+                {filteredTournamentsSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() =>
+                      handleSelect(
+                        suggestion,
+                        setTournamentName,
+                        setFilteredTournamentsSuggestions
+                      )
+                    }
+                    className="p-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div className="mb-6">
             <label className="block mb-2 text-sm font-semibold text-gray-700">
@@ -277,17 +471,30 @@ export default function CreateTournament() {
             <input
               type="text"
               value={sport}
-              onChange={handleChange}
+              onChange={(e) =>
+                handleChange(
+                  e,
+                  sports_suggestions,
+                  setSport,
+                  setFilteredSportsSuggestions
+                )
+              }
               placeholder="Sport"
               className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
               required
             />
-            {filteredSuggestions.length > 0 && (
+            {filteredSportsSuggestions.length > 0 && (
               <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md">
-                {filteredSuggestions.map((suggestion, index) => (
+                {filteredSportsSuggestions.map((suggestion, index) => (
                   <li
                     key={index}
-                    onClick={() => handleSelect(suggestion)}
+                    onClick={() =>
+                      handleSelect(
+                        suggestion,
+                        setSport,
+                        setFilteredSportsSuggestions
+                      )
+                    }
                     className="p-2 cursor-pointer hover:bg-gray-100"
                   >
                     {suggestion}
@@ -358,24 +565,42 @@ export default function CreateTournament() {
             <label className="block mb-2 text-sm font-semibold text-gray-700">
               Requirements
             </label>
-            <input
-              type="text"
-              value={requirements}
-              onChange={(e) => {
-                setTournamentCreated(false);
-                setTournamentError(false);
-                setRequirements(e.target.value);
-              }}
-              placeholder="Requirements"
-              className="transition w-full p-2 border-b border-gray-300 focus:border-black focus:outline-none"
-              required
-            />
+            <div className="grid grid-cols-3 gap-2">
+              {commonRequirements.map((requirement, index) => (
+                <div className="flex items-center justify">
+                  <input
+                    type="checkbox"
+                    name={`${index}-${requirement}`}
+                    id={`${index}-${requirement}`}
+                    value={requirements}
+                    onChange={(e) => {
+                      setTournamentCreated(false);
+                      setTournamentError(false);
+                      setRequirements(e.target.value);
+                      if (requirements.includes(requirement)) {
+                        const updatedRequirements = requirements.filter(
+                          (requirement_) => requirement_ != requirement
+                        );
+                        setRequirements(updatedRequirements);
+                      } else {
+                        setRequirements([...requirements, requirement]);
+                      }
+                    }}
+                    placeholder="Requirements"
+                    className="transition mr-2 border-b border-gray-300 focus:border-black focus:outline-none"
+                  />
+                  <label htmlFor={`${index}-${requirement}`}>
+                    {requirement}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-row">
             <button
               type="submit"
-              className="transition py-2 mt-4 w-full text-white bg-blue-600 rounded-[6px] hover:bg-blue-700"
+              className="transition py-2 mt-4 w-full text-white bg-blue-600 rounded-lg hover:bg-blue-700"
               disabled={loading}
             >
               <div className="flex flex-row items-center justify-center">
