@@ -1,14 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import SimpleBracketComponent from "../components/SimpleBracketComponent";
+import DynamicBracketComponent from "../components/DynamicBracketComponent";
 
 import Loading from "../components/Loading";
 
 export default function TournamentDetailPage() {
   const { getTournament } = useContext(AuthContext);
 
+  const [type, setType] = useState("single"); // "single" or "double"
+
+  const teams = [
+    { name: "Team A" },
+    { name: "Team B" },
+    { name: "Team C" },
+    { name: "Team D" },
+    { name: "Team E" },
+    { name: "Team F" },
+    // { name: "Team G" },
+    // { name: "Team H" },
+  ];
+
   const [numParticipants, setNumParticipants] = useState(8);
-  const [bracketType, setBracketType] = useState("double");
+  const [bracketType, setBracketType] = useState("single");
   const [winnerBracket, setWinnerBracket] = useState([]);
   const [loserBracket, setLoserBracket] = useState([]);
 
@@ -241,113 +256,8 @@ export default function TournamentDetailPage() {
             </span>
           </div>
         </div>
-
-        <div className="p-6 max-w-6xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">
-            🏆 Tournament Bracket Maker
-          </h1>
-
-          <div className="flex gap-4 mb-4">
-            <input
-              type="number"
-              min="2"
-              value={numParticipants}
-              onChange={(e) => setNumParticipants(Number(e.target.value))}
-              className="p-2 border rounded"
-            />
-
-            <select
-              value={bracketType}
-              onChange={(e) => setBracketType(e.target.value)}
-              className="p-2 border rounded"
-            >
-              <option value="single">Single Elimination</option>
-              <option value="double">Double Elimination</option>
-              <option value="roundRobin">Round Robin</option>
-            </select>
-
-            <button
-              onClick={generateBracket}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Generate Bracket
-            </button>
-          </div>
-
-          {winnerBracket.length > 0 && (
-            <div>
-              <h2 className="text-xl font-semibold text-center mb-4">
-                🏅 Winner's Bracket
-              </h2>
-              <div className="flex overflow-x-auto space-x-8 p-4">
-                {winnerBracket.map((round, roundIndex) => (
-                  <div key={roundIndex} className="flex flex-col items-center">
-                    <h2 className="text-lg font-semibold mb-2">
-                      Round {roundIndex + 1}
-                    </h2>
-                    <div className="flex flex-col gap-4">
-                      {round.map(([player1, player2, matchNum], matchIndex) => (
-                        <div
-                          key={matchIndex}
-                          className="relative w-56 text-center"
-                        >
-                          <div className="text-sm font-semibold text-gray-600">
-                            Match {matchNum}
-                          </div>
-                          <div className="flex flex-col justify-between border border-gray-400 p-2 rounded bg-white shadow-md">
-                            <span className="font-medium">{player1}</span>
-                            <span className="text-sm text-gray-500">vs</span>
-                            <span className="font-medium">{player2}</span>
-                          </div>
-                          {roundIndex < winnerBracket.length - 1 && (
-                            <div className="absolute right-[-20px] top-1/2 w-6 border-t-2 border-gray-400"></div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {loserBracket.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-center mb-4">
-                🥈 Loser's Bracket
-              </h2>
-              <div className="flex overflow-x-auto space-x-8 p-4">
-                {loserBracket.map((round, roundIndex) => (
-                  <div key={roundIndex} className="flex flex-col items-center">
-                    <h2 className="text-lg font-semibold mb-2">
-                      Round {roundIndex + 1}
-                    </h2>
-                    <div className="flex flex-col gap-4">
-                      {round.map(([player1, player2, matchNum], matchIndex) => (
-                        <div
-                          key={matchIndex}
-                          className="relative w-56 text-center"
-                        >
-                          <div className="text-sm font-semibold text-gray-600">
-                            Match {matchNum}
-                          </div>
-                          <div className="flex flex-col justify-between border border-gray-400 p-2 rounded bg-gray-100 shadow-md">
-                            <span className="font-medium">{player1}</span>
-                            <span className="text-sm text-gray-500">vs</span>
-                            <span className="font-medium">{player2}</span>
-                          </div>
-                          {roundIndex < loserBracket.length - 1 && (
-                            <div className="absolute right-[-20px] top-1/2 w-6 border-t-2 border-gray-400"></div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        {/* <SimpleBracketComponent teams={teams} type={type} /> */}
+        <DynamicBracketComponent teams={teams} />
       </div>
     </>
   );

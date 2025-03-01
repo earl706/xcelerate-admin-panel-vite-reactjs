@@ -109,9 +109,10 @@ export const AuthProvider = ({ children }) => {
 
   const refreshToken = async (token) => {
     try {
-      const response = APIusers.post("token/refresh/", {
+      const response = await APIusers.post("token/refresh/", {
         refresh: token,
       });
+      console.log(response);
       return response;
     } catch (error) {
       return error;

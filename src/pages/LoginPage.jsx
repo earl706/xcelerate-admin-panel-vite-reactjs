@@ -38,6 +38,7 @@ export default function LoginPage({ onLogin }) {
   const handleSavedLogin = async (refresh_token) => {
     try {
       setLoading(true);
+      console.log("saved login");
       const login_response = await refreshToken(refresh_token);
       const lastPath = localStorage.getItem("lastPath");
       if (login_response.status == 200 && login_response.statusText == "OK") {
@@ -58,7 +59,9 @@ export default function LoginPage({ onLogin }) {
   };
 
   useEffect(() => {
-    handleSavedLogin();
+    if (localStorage.getItem("adminExcelerateToken")) {
+      handleSavedLogin(localStorage.getItem("adminExcelerateRefreshToken"));
+    }
   }, []);
 
   return (
